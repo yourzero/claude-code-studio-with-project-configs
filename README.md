@@ -44,11 +44,38 @@
 
 ## 🚀 Quick Start
 
-### 1. Clone the Repository
+Choose your installation method based on your current setup:
+
+### 🆕 New Users (No existing ~/.claude setup)
 ```bash
+# Simple installation
 git clone https://github.com/your-username/claude-code-studio.git ~/.claude
 cd ~/.claude
+
+# Customize your environment
+cp CONTEXT_TEMPLATE.md CONTEXT.md
+# Edit CONTEXT.md with your personal details
 ```
+
+### 🔄 Existing Users (Have ~/.claude setup)
+**Safe backup and replace method:**
+
+```bash
+# 1. Backup your current setup
+cp -r ~/.claude ~/.claude-backup
+
+# 2. Install studio (replaces existing)
+git clone https://github.com/your-username/claude-code-studio.git ~/.claude
+cd ~/.claude
+
+# 3. Restore your personal files
+cp ~/.claude-backup/CONTEXT.md ~/.claude/ 2>/dev/null || echo "No existing CONTEXT.md found"
+cp ~/.claude-backup/settings*.json ~/.claude/ 2>/dev/null || echo "No existing settings found"
+
+# 4. Merge MCP configurations (see step 2 below)
+```
+
+> 💡 **Safety First**: Your backup at `~/.claude-backup` lets you revert anytime with `rm -rf ~/.claude && mv ~/.claude-backup ~/.claude`
 
 ### 2. Configure MCP Servers
 Add these servers to your existing `.claude.json` or MCP configuration:
@@ -249,6 +276,45 @@ claude-code-studio/
     ├── test.md           # Testing commands
     ├── ui.md             # UI development commands
     └── ...               # Additional workflow commands
+```
+
+## 🔧 Installation Troubleshooting
+
+### Reverting Installation (Existing Users)
+If you need to go back to your original setup:
+```bash
+# Remove studio and restore backup
+rm -rf ~/.claude
+mv ~/.claude-backup ~/.claude
+echo "Original configuration restored!"
+```
+
+### Merging MCP Configurations
+If you had MCP servers configured before installation:
+
+1. **Check your existing config**: `cat ~/.claude.json` (this file stays in place during installation)
+2. **Add studio servers**: Merge the MCP servers from step 2 into your existing `~/.claude.json`
+3. **Test setup**: Restart and verify all servers load correctly
+
+> 💡 **Note**: The `.claude.json` MCP configuration file is at `~/.claude.json` (not inside the `~/.claude/` folder), so it's preserved during installation.
+
+### Partial Recovery
+Restore specific files from backup:
+```bash
+# Restore specific personal files
+cp ~/.claude-backup/hooks/* ~/.claude/hooks/ 2>/dev/null || true
+cp ~/.claude-backup/commands/* ~/.claude/commands/ 2>/dev/null || true
+# Add any other personal customizations
+```
+
+### Verification
+Confirm studio is working:
+```bash
+# Check structure
+ls -la ~/.claude/agents/
+
+# Verify agents are available - try this command:
+# "Use file-creator agent to create a new component"
 ```
 
 ## ⚙️ Customization Guide
