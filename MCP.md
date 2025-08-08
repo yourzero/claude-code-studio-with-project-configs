@@ -123,6 +123,21 @@ IF task_type == "documentation_research":
   IF topic == "library_usage" AND depth == "basic":
     PRIMARY: [context7.resolve-library-id, context7.get-library-docs]
     COMPLEXITY: 2/5
+  ELIF topic == "saved_content" AND source == "readwise":
+    PRIMARY: [readwise.readwise_topic_search, readwise.readwise_list_documents]
+    SECONDARY: [readwise.readwise_search_highlights]
+    COMPLEXITY: 3/5
+    USAGE: "Search saved articles, videos, highlights from personal knowledge base"
+    
+    CRITICAL_TOOL: readwise_list_documents
+    PURPOSE: "Get full content of saved documents"
+    REQUIRED_PARAMS_FOR_FULL_CONTENT:
+      - id: "Document ID from search results"
+      - withFullContent: true
+      - contentMaxLength: 50000 (or higher for long documents)
+    OPTIONAL_FILTERING:
+      - contentFilterKeywords: ["keyword1", "keyword2"] (extract specific sections)
+    CORRECT_USAGE: readwise_list_documents(id="doc_id", withFullContent=true, contentMaxLength=50000)
   ELIF topic == "best_practices" AND depth == "comprehensive":
     PRIMARY: [context7.get-library-docs, readwise.readwise_search_highlights, sequential-thinking.analyze]
     SECONDARY: [readwise.readwise_list_documents]
