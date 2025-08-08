@@ -376,14 +376,28 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
+### Core Contributors
+
+**[Contains Studio](https://github.com/contains-studio/agents)** 🎯  
+Provided the complete 40+ agent system that forms the heart of this studio. Their revolutionary vision of department-organized, specialized AI agents with 6-day sprint methodology enables the rapid development capabilities this project provides. The entire agent ecosystem - from engineering to marketing to testing - originates from their innovative work.
+
+**[Agent OS by Builder Methods](https://github.com/buildermethods/agent-os)** 🔧  
+Contributed foundational concepts for utility agent patterns and systematic AI development workflows. Their approach to structured, spec-driven agentic development influenced the utility agent implementation and workflow optimization principles.
+
 ### Special Thanks
-- **Anthropic** for creating Claude Code and enabling this ecosystem
-- **Claude Code Community** for inspiration and feedback
+- **Anthropic** for creating the AI platform that enables this ecosystem
+- **Development Community** for inspiration and collaborative feedback
 - **MCP Server Developers** for building the tools that power the integrations
 - **Open Source Contributors** who make projects like this possible
 
+### Philosophy Credits
+- **6-Day Sprint Methodology**: Contains Studio's rapid development framework
+- **Agent-First Development**: Core principle from Contains Studio
+- **Structured AI Workflows**: Concepts from Agent OS systematic approach
+- **Domain Specialization**: Department-based organization by Contains Studio
+
 ### Built With
-- [Claude Code](https://claude.ai/code) - AI-powered development environment
+- AI-powered development environment with MCP integration
 - [Model Context Protocol](https://modelcontextprotocol.io/) - Standardized AI-tool integration
 - [Various MCP Servers](https://github.com/modelcontextprotocol/servers) - Specialized tool integrations
 
