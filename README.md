@@ -224,27 +224,31 @@ The studio includes decision trees for optimal tool selection based on task comp
 ## 📁 Project Structure
 
 ```
-~/.claude/
+claude-code-studio/
 ├── README.md                 # This documentation
+├── LICENSE                   # MIT license
 ├── CLAUDE.md                 # Main configuration entry point
-├── CONTEXT.md               # Personal environment settings
 ├── CONTEXT_TEMPLATE.md      # Template for personal customization
-├── AGENTS.md                # 40+ specialized agents
-├── MCP.md                   # 12 MCP server configurations  
+├── AGENTS.md                # Complete agent system documentation
+├── MCP.md                   # 12 MCP server integration guide
 ├── PRINCIPLES.md            # Core development philosophy
 ├── RULES.md                 # Operational safety protocols
-├── agents/
-│   ├── README.md           # Detailed agent documentation
-│   ├── engineering/        # Backend, frontend, mobile, AI, etc.
-│   ├── design/             # UI, UX, brand, visual design
-│   ├── marketing/          # Growth, social, content creation
-│   ├── product/            # Research, prioritization, feedback
-│   ├── operations/         # Analytics, finance, support
-│   └── testing/            # API, performance, workflow testing
-└── templates/
-    ├── components/         # React, Vue, Angular templates
-    ├── apis/               # REST, GraphQL endpoint templates
-    └── documentation/      # README, API docs, guides
+├── agents/                  # 40+ specialized agents
+│   ├── utilities/          # Mandatory utility agents (file-creator, git-workflow, etc.)
+│   ├── engineering/        # Backend, frontend, mobile, AI engineers
+│   ├── design/            # UI designers, UX researchers, brand guardians
+│   ├── marketing/         # Growth hackers, content creators, social strategists
+│   ├── product/           # Sprint prioritizers, feedback synthesizers
+│   ├── project-management/ # Experiment trackers, project shippers
+│   ├── studio-operations/ # Analytics, finance, infrastructure
+│   ├── testing/           # API testers, performance benchmarkers
+│   └── bonus/             # Studio coach, special purpose agents
+└── commands/              # Slash command definitions
+    ├── api.md            # API development commands
+    ├── deploy.md         # Deployment commands
+    ├── test.md           # Testing commands
+    ├── ui.md             # UI development commands
+    └── ...               # Additional workflow commands
 ```
 
 ## ⚙️ Customization Guide
