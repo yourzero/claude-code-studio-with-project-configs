@@ -50,15 +50,40 @@ git clone https://github.com/your-username/claude-code-studio.git ~/.claude
 cd ~/.claude
 ```
 
-### 2. Basic Setup
-The studio works immediately with default configurations:
+### 2. Configure MCP Servers
+Add these servers to your existing `.claude.json` or MCP configuration:
 
+**Critical servers (essential):**
+```json
+{
+  "mcpServers": {
+    "git": { "type": "stdio", "command": "uvx", "args": ["mcp-server-git"] },
+    "serena": { "type": "stdio", "command": "uvx", "args": ["--from", "git+https://github.com/oraios/serena", "serena", "start-mcp-server", "--context", "ide-assistant"] },
+    "sequential-thinking": { "type": "stdio", "command": "npx", "args": ["@modelcontextprotocol/server-sequential-thinking"] }
+  }
+}
+```
+
+**High priority servers (stack-dependent):**
+```json
+{
+  "supabase": { "type": "stdio", "command": "npx", "args": ["@supabase/mcp-server-supabase@latest"], "env": { "SUPABASE_ACCESS_TOKEN": "[YOUR_TOKEN]" } },
+  "sentry": { "type": "http", "url": "https://mcp.sentry.dev/mcp" },
+  "context7": { "type": "stdio", "command": "npx", "args": ["@upstash/context7-mcp"] },
+  "playwright": { "type": "stdio", "command": "npx", "args": ["@playwright/mcp@latest"] }
+}
+```
+
+> 💡 Most servers auto-install via `npx` on first use. See [MCP Integration](#-mcp-integration) section for complete setup.
+
+### 3. Basic Setup
 ```bash
 # Verify installation
 ls -la ~/.claude
 
-# Start using Claude Code with studio enhancements
-# The system automatically activates when Claude Code detects the configuration
+# Customize your environment (optional)
+cp CONTEXT_TEMPLATE.md CONTEXT.md
+# Edit CONTEXT.md with your personal details
 ```
 
 ### 3. First Studio Command
