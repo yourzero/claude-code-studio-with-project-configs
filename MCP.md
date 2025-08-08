@@ -1,8 +1,10 @@
 ---
-mcp_version: "2.0"
-last_updated: "2025-01-06"
+mcp_version: "2.1"
+last_updated: "2025-01-08"
 total_servers: 12
 ai_optimized: true
+agent_integrated: true
+orchestration_patterns: 15
 capability_matrix:
   code_analysis: [serena, sequential-thinking, ide]
   documentation: [context7, readwise, sequential-thinking]
@@ -52,17 +54,22 @@ server_priorities:
 ```
 IF task_type == "code_analysis":
   IF complexity == "simple" AND scope == "single_file":
-    PRIMARY: [serena.find_symbol, serena.get_symbols_overview]
+    AGENT_FIRST: [backend-architect, frontend-developer] (based on domain)
+    DIRECT_MCP: [serena.find_symbol, serena.get_symbols_overview]
     COMPLEXITY: 1/5
   ELIF complexity == "medium" AND scope == "multi_file":
-    PRIMARY: [serena.search_for_pattern, sequential-thinking.analyze]
+    AGENT_FIRST: [rapid-prototyper] (coordinates analysis workflow)
+    AGENT_MCP_CHAIN: [serena.search_for_pattern, sequential-thinking.analyze]
     SECONDARY: [ide.getDiagnostics]
     COMPLEXITY: 3/5
   ELIF complexity == "high" AND scope == "system_wide":
-    PRIMARY: [serena.find_symbol, sequential-thinking.analyze, ide.getDiagnostics]
+    AGENT_FIRST: [studio-coach] (orchestrates multi-agent analysis)
+    COORDINATED_AGENTS: [backend-architect, frontend-developer, test-writer-fixer]
+    MCP_CHAIN: [serena.find_symbol, sequential-thinking.analyze, ide.getDiagnostics]
     SECONDARY: [context7.get-library-docs]
     COMPLEXITY: 4/5
   AVOID_WHEN: ["no_code_context", "binary_files_only"]
+  AGENT_BENEFITS: ["Domain expertise", "Fresh context", "Workflow orchestration"]
 ```
 
 ### Database Operations Decision Tree  
@@ -86,17 +93,22 @@ IF task_type == "database_operations":
 ```
 IF task_type == "testing":
   IF test_type == "unit" AND scope == "backend":
-    PRIMARY: [ide.executeCode, sequential-thinking.analyze]
+    AGENT_FIRST: [test-runner] (MANDATORY for test execution)
+    AGENT_MCP_CHAIN: [ide.executeCode, sequential-thinking.analyze]
     COMPLEXITY: 2/5
   ELIF test_type == "e2e" AND scope == "frontend":
-    PRIMARY: [playwright.browser_navigate, playwright.browser_click, playwright.browser_snapshot]
+    AGENT_FIRST: [test-writer-fixer, api-tester] (based on focus area)
+    AGENT_MCP_CHAIN: [playwright.browser_navigate, playwright.browser_click, playwright.browser_snapshot]
     SECONDARY: [puppeteer.puppeteer_screenshot]
     COMPLEXITY: 3/5
   ELIF test_type == "integration" AND scope == "full_stack":
-    PRIMARY: [playwright.browser_navigate, supabase.execute_sql, sequential-thinking.analyze]
+    AGENT_FIRST: [studio-coach] (orchestrates complex testing workflow)
+    COORDINATED_AGENTS: [test-runner, api-tester, test-writer-fixer]
+    MCP_CHAIN: [playwright.browser_navigate, supabase.execute_sql, sequential-thinking.analyze]
     SECONDARY: [sentry.search_events, vercel.getDeploymentEvents]
     COMPLEXITY: 4/5
   AVOID_WHEN: ["headless_environment", "no_browser_access", "api_rate_limits"]
+  AUTO_TRIGGERS: ["test-writer-fixer after code changes", "performance-benchmarker for optimization"]
 ```
 
 ### Error Resolution Decision Tree
@@ -121,10 +133,12 @@ IF task_type == "error_resolution":
 ```
 IF task_type == "documentation_research":
   IF topic == "library_usage" AND depth == "basic":
-    PRIMARY: [context7.resolve-library-id, context7.get-library-docs]
+    AGENT_FIRST: [context-fetcher] (MANDATORY for documentation retrieval)
+    AGENT_MCP_CHAIN: [context7.resolve-library-id, context7.get-library-docs]
     COMPLEXITY: 2/5
   ELIF topic == "saved_content" AND source == "readwise":
-    PRIMARY: [readwise.readwise_topic_search, readwise.readwise_list_documents]
+    AGENT_FIRST: [knowledge-fetcher] (MANDATORY for external knowledge sources)
+    AGENT_MCP_CHAIN: [readwise.readwise_topic_search, readwise.readwise_list_documents]
     SECONDARY: [readwise.readwise_search_highlights]
     COMPLEXITY: 3/5
     USAGE: "Search saved articles, videos, highlights from personal knowledge base"
@@ -139,14 +153,17 @@ IF task_type == "documentation_research":
       - contentFilterKeywords: ["keyword1", "keyword2"] (extract specific sections)
     CORRECT_USAGE: readwise_list_documents(id="doc_id", withFullContent=true, contentMaxLength=50000)
   ELIF topic == "best_practices" AND depth == "comprehensive":
-    PRIMARY: [context7.get-library-docs, readwise.readwise_search_highlights, sequential-thinking.analyze]
+    AGENT_FIRST: [knowledge-fetcher] (coordinates multi-source research)
+    AGENT_MCP_CHAIN: [context7.get-library-docs, readwise.readwise_search_highlights, sequential-thinking.analyze]
     SECONDARY: [readwise.readwise_list_documents]
     COMPLEXITY: 3/5
   ELIF topic == "troubleshooting" AND depth == "expert":
-    PRIMARY: [sentry.search_docs, readwise.readwise_export_highlights, sequential-thinking.analyze]
+    AGENT_FIRST: [knowledge-fetcher] (synthesizes troubleshooting resources)
+    AGENT_MCP_CHAIN: [sentry.search_docs, readwise.readwise_export_highlights, sequential-thinking.analyze]
     SECONDARY: [context7.get-library-docs]
     COMPLEXITY: 4/5
   AVOID_WHEN: ["offline_environment", "no_documentation_access"]
+  AGENT_BENEFITS: ["Multi-source synthesis", "Context filtering", "Knowledge consolidation"]
 ```
 
 ## QUERY CLASSIFICATION RULES
@@ -181,10 +198,45 @@ query_classification:
 ```
 
 ### Agent Integration
-- **Natural Language Requests**: Agents auto-activate appropriate MCPs
-- **Semantic Understanding**: Serena enhances agent code comprehension
-- **Think Patterns**: Agents can trigger structured analysis when complexity requires it
-- **Fresh Context**: Each agent spawn gets independent MCP access
+
+**See AGENTS.md for complete orchestration patterns**. Key MCP coordination: Utility agents mandatory for their domains, agent-coordinated MCP workflows preserve context and provide domain expertise.
+
+## AGENT-MCP COORDINATION PATTERNS
+
+### Utility Agent Delegations (MANDATORY)
+
+**Pattern**: Agent provides domain expertise → MCPs execute operations → Agent synthesizes results
+
+- **file-creator**: File operations (Write, MultiEdit, Edit)
+- **git-workflow**: Version control (git.git_commit, git.git_add, git.git_status)
+- **knowledge-fetcher**: Research (readwise, context7, WebSearch)
+- **date-checker**: Temporal calculations (date commands, filtering)
+- **context-fetcher**: Documentation (Read, Glob, WebFetch)
+
+### Specialized Agent Patterns
+
+**Domain-Specific Coordination**:
+- **Testing**: test-writer-fixer → playwright/ide → validation
+- **Code Analysis**: Engineering agents → serena/sequential-thinking → insights
+- **Error Resolution**: backend-architect → sentry/supabase → diagnosis
+- **Deployment**: devops-automator → vercel/git → monitoring
+
+### Studio-Coach Orchestration
+
+**Complex Multi-Domain Coordination**:
+- **Feature Development**: Design → Code → Test → Deploy (parallel agent teams)
+- **Production Incidents**: Error analysis + Log review + Deployment check
+- **System Refactoring**: Analysis → Planning → Implementation → Validation
+
+**Benefits**: Prevents MCP conflicts, optimizes resource allocation, maintains workflow coherence.
+
+### Auto-Triggering Agent Integration
+
+**Proactive Coordination**:
+- **test-writer-fixer**: Code changes → serena → ide → playwright (auto-testing)
+- **whimsy-injector**: UI changes → playwright → serena (auto-enhancement)
+- **experiment-tracker**: Feature flags → supabase → sentry (auto-tracking)
+- **studio-coach**: Complex workflows → Multi-agent coordination
 
 ## ERROR RECOVERY & FALLBACKS
 - **git** → Manual git commands → Note version control limitations  

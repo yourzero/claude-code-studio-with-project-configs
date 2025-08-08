@@ -1,22 +1,70 @@
-# RULES - Operational Safety & Standards
+# ⛔ BLOCKING RULES - Non-Negotiable Behavioral Enforcement
 
-## CORE OPERATIONAL RULES
+## RULE #1: ⛔ AGENT-FIRST ENFORCEMENT (COGNITIVE STOP)
 
-### File Operation Security
-- **Always use Read tool before Write or Edit operations**
-- **Use absolute paths only** - prevent path traversal attacks
-- **Prefer batch operations** and transaction-like behavior
-- **Never commit automatically** unless explicitly requested
-- **Never reference "Claude" in commit messages** - use neutral, descriptive commit messages only
+### 🚫 FORBIDDEN WITHOUT AGENTS
+**STOP IMMEDIATELY if attempting these operations directly:**
 
-### Task Management
-- **MANDATORY: Always use agents first** - Agent delegation is the DEFAULT, not the exception
-- **Agent-First Rule**: If an agent exists for the task domain, it MUST be used instead of direct tools
-- **Direct Tool Exception**: Only use direct tools when no relevant agent exists or agent explicitly fails
-- Use batch tool calls when possible, sequential only when dependencies exist
+- **file-creator** MANDATORY for:
+  - File creation (Write tool)
+  - Directory creation (mkdir, file structure)
+  - Template application
+  - Batch file operations
+
+- **git-workflow** MANDATORY for:
+  - All git commands (commit, push, branch, merge)
+  - Repository operations
+  - Version control workflows
+
+- **context-fetcher** MANDATORY for:
+  - Documentation retrieval (Read tool for docs)
+  - Internal knowledge base access
+  - Technical reference lookup
+
+- **knowledge-fetcher** MANDATORY for:
+  - External research (Readwise, Context7)
+  - Web search operations
+  - Knowledge synthesis from multiple sources
+
+- **date-checker** MANDATORY for:
+  - Date/time calculations
+  - Scheduling queries
+  - Timestamp analysis
+
+### ⛔ ENFORCEMENT PROTOCOL
+```
+BEFORE ANY TOOL USE:
+1. PAUSE - Does an agent exist for this domain?
+2. CHECK - Is this a utility agent mandatory domain?
+3. REDIRECT - Use agent instead of direct tool
+4. ONLY PROCEED with direct tools if NO AGENT EXISTS or AGENT FAILS
+```
+
+## RULE #2: ⛔ FILE SAFETY ENFORCEMENT
+
+**MANDATORY Read-Before-Write Protocol:**
+- Read tool MUST precede Write/Edit operations
+- Absolute paths ONLY - no relative paths permitted
+- Never auto-commit without explicit user permission
+- Never reference "Claude" in commit messages
+
+## RULE #3: ⛔ CODEBASE CHANGE ENFORCEMENT
+
+**MANDATORY Discovery-Before-Change Protocol:**
+- Complete project-wide discovery before ANY changes
+- Search ALL file types for ALL variations of target terms
+- Document all references with context and impact assessment
+- Execute changes in coordinated manner following plan
+
+# ✅ OPERATIONAL GUIDELINES - Best Practices & Standards
+
+## Task Execution Standards
+
+### Validation Protocols
 - Always validate before execution, verify after completion
 - Run lint/typecheck before marking tasks complete
 - Maintain ≥90% context retention across operations
+- Use batch tool calls when possible, sequential only when dependencies exist
 
 ### Framework Compliance
 - Check package.json/requirements.txt before using libraries
@@ -24,16 +72,7 @@
 - Use project's existing import styles and organization
 - Respect framework lifecycles and best practices
 
-### Systematic Codebase Changes
-- **MANDATORY**: Complete project-wide discovery before any changes
-- Search ALL file types for ALL variations of target terms
-- Document all references with context and impact assessment
-- Plan update sequence based on dependencies and relationships
-- Execute changes in coordinated manner following plan
-- Verify completion with comprehensive post-change search
-- Validate related functionality remains working
-
-## QUALITY GATES
+## Quality Assurance Pipeline
 
 ### Validation Sequence
 1. **Syntax Check**: Language parsers and intelligent suggestions
@@ -50,27 +89,19 @@
 - **Qualitative**: Code quality improvements, security enhancements, UX improvements
 - **Documentation**: Change rationale, test results, performance benchmarks
 
-## SAFETY PROTOCOLS
+## Operational Safety Protocols
 
-### Do Always
-✅ **ALWAYS use agents first** - mandatory agent-first approach
-✅ Use utility agents for ALL basic operations (file-creator, git-workflow, date-checker, context-fetcher)
-✅ Use specialized agents for domain-specific tasks (backend-architect, frontend-developer, etc.)
-✅ Read before Write/Edit/Update operations
-✅ Use absolute paths for all file operations
-✅ Batch tool calls for efficiency
-✅ Validate before execution
-✅ Check framework compatibility
-✅ Complete discovery before codebase changes
-✅ Verify completion with evidence
+### ✅ ALWAYS Execute
+- Agent-first approach for ALL operations
+- Specialized agents for domain-specific tasks
+- Batch operations for efficiency
+- Complete discovery before codebase changes
+- Verify completion with evidence
 
-### Never Do
-❌ **NEVER use direct tools when agents are available** - violates agent-first mandate
-❌ Skip agent delegation for utility operations (file creation, git ops, dates, docs)
-❌ Skip Read operations before file modifications
-❌ Use relative paths in file operations
-❌ Auto-commit without explicit permission
-❌ Ignore existing framework patterns
-❌ Skip validation steps
-❌ Make reactive changes without discovery
-❌ Mark tasks complete without verification
+### ⛔ NEVER Execute
+- Direct tools when agents are available (violates agent-first mandate)
+- File modifications without Read operations
+- Relative paths in file operations
+- Framework pattern violations
+- Changes without discovery phase
+- Task completion without verification

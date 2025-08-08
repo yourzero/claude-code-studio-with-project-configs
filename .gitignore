@@ -23,3 +23,6 @@ node_modules/
 
 # Personal context file (keep template public, personal private)
 CONTEXT.md
+
+reddit-post.md
+
