@@ -89,6 +89,20 @@ These agents MUST be used for their designated domains - no exceptions.
   - "Find best practices for React hooks" → context-fetcher
   - "Retrieve database schema documentation" → context-fetcher
 
+### knowledge-fetcher
+**MANDATORY for**: ALL external knowledge source searches (Readwise, Context7, web search)
+- **Specialization**: External knowledge retrieval from multiple sources
+- **Expertise**: Personal library search, technical documentation, web research, knowledge synthesis
+- **Core Responsibilities**:
+  - Personal knowledge library access (Readwise documents and highlights)
+  - Technical documentation retrieval (Context7 library references)
+  - Current information gathering (web search for recent developments)
+  - Multi-source knowledge synthesis and presentation
+- **Usage Examples**:
+  - "Find videos about hooks in my Readwise library" → knowledge-fetcher
+  - "Get latest React documentation from Context7" → knowledge-fetcher
+  - "Search for recent AI development workflows" → knowledge-fetcher
+
 ### test-runner
 **MANDATORY for**: ALL test execution tasks
 - **Specialization**: Isolated test execution with structured failure analysis

@@ -83,6 +83,7 @@ contains-studio-agents/
 │   ├── date-checker.md
 │   ├── file-creator.md
 │   ├── git-workflow.md
+│   ├── knowledge-fetcher.md
 │   └── test-runner.md
 └── bonus/
     ├── joker.md
@@ -145,6 +146,7 @@ contains-studio-agents/
 - **date-checker** - Accurate date/time context for timestamps and scheduling
 - **file-creator** - Mechanical file creation and template application
 - **git-workflow** - Safe git operations with workflow automation
+- **knowledge-fetcher** - External knowledge retrieval from Readwise, Context7, and web search
 - **test-runner** - Isolated test execution with structured failure analysis
 
 ## 🎁 Bonus Agents
