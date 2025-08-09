@@ -1,5 +1,54 @@
 # ⛔ BLOCKING RULES - Non-Negotiable Behavioral Enforcement
 
+## RULE #0: ⛔ AUTOMATIC AGENT DELEGATION (UNIVERSAL ENFORCEMENT)
+
+### 🤖 MANDATORY PRE-ACTION PROTOCOL
+**BEFORE ANY RESPONSE - SCAN FOR AGENT APPLICABILITY:**
+
+```
+STEP 1: KEYWORD ANALYSIS
+- Scan user request for agent trigger keywords
+- Match request context to agent specializations
+- Identify task complexity and domain requirements
+
+STEP 2: AGENT SELECTION MATRIX
+IF utility_domain_detected: USE_MANDATORY_UTILITY_AGENT
+ELIF single_domain_task: USE_SPECIALIZED_AGENT  
+ELIF cross_domain_task: USE_STUDIO_COACH_ORCHESTRATION
+ELSE: PROCEED_WITH_DIRECT_TOOLS
+
+STEP 3: AUTO-DELEGATION
+- Spawn appropriate agent(s) with task context
+- ONLY use direct tools if NO agent matches or agent fails
+- Document agent selection reasoning if non-obvious
+```
+
+### 🎯 TRIGGER KEYWORD MATRIX
+**Utility Agents (MANDATORY)**:
+- file creation, directory, template → file-creator
+- git, commit, branch, merge, push → git-workflow
+- date, time, schedule, timestamp → date-checker
+- docs, readme, documentation → context-fetcher  
+- search, research, readwise, web → knowledge-fetcher
+
+**Domain Specialists**:
+- mobile, android, ios, app → mobile-app-builder
+- web, react, frontend, ui → frontend-developer
+- api, backend, server, database → backend-architect
+- test, testing, bug, debug → test-writer-fixer
+- design, interface, ux → ui-designer
+- deploy, deployment, production → devops-automator
+
+**Cross-Domain Coordination**:
+- complex, multi-step, coordinate → studio-coach
+- analyze, investigate, research → appropriate domain + sequential-thinking
+
+### ⚡ ENFORCEMENT HIERARCHY
+1. **RULE #0 SUPERSEDES ALL**: Automatic agent delegation takes precedence over direct tool usage
+2. **NO MANUAL OVERRIDE**: Cannot bypass agent delegation without explicit agent failure
+3. **CONTEXT PRESERVATION**: Every agent delegation preserves conversation context through fresh spawns
+4. **QUALITY ASSURANCE**: Agent expertise delivers superior results over general-purpose tool usage
+
 ## RULE #1: ⛔ AGENT-FIRST ENFORCEMENT (COGNITIVE STOP)
 
 ### 🚫 FORBIDDEN WITHOUT AGENTS
@@ -46,7 +95,20 @@ BEFORE ANY TOOL USE:
 - Read tool MUST precede Write/Edit operations
 - Absolute paths ONLY - no relative paths permitted
 - Never auto-commit without explicit user permission
-- Never reference "Claude" in commit messages
+
+**MANDATORY Commit Message Standards:**
+- Never reference "Claude", "AI", "assistant", or similar terms
+- Use active voice and technical descriptions
+- Focus on what changed, not who/what made the change
+- Examples:
+  - ✅ "Add automatic agent delegation protocol"  
+  - ✅ "Optimize configuration token consumption by 18%"
+  - ✅ "Enhance skin tone filter selection logic"
+  - ❌ "Claude added automatic agent delegation"
+  - ❌ "AI optimized the configuration files"
+  - ❌ "Assistant enhanced the skin tone filter"
+- **Enforcement**: git-workflow agent MUST validate and rewrite non-compliant messages
+- **Auto-correction**: Replace AI references with appropriate technical descriptions
 
 ## RULE #3: ⛔ CODEBASE CHANGE ENFORCEMENT
 
