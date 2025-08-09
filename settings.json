@@ -3,12 +3,5 @@
   "model": "sonnet",
   "feedbackSurveyState": {
     "lastShownTime": 1754067711350
-  },
-  "hooks": {
-    "UserPromptSubmit": [
-      {
-        "command": "/home/arn/.claude/hooks/user-prompt-submit"
-      }
-    ]
   }
 }
