@@ -1,0 +1,201 @@
+#!/bin/bash
+
+set -euo pipefail
+
+# Hook-based enforcement mechanism for automatic agent triggering
+# Implements RULE #0 protocol from RULES.md for mandatory agent delegation
+
+# Read stdin JSON data
+stdin=$(cat)
+# Extract prompt from JSON using sed/grep (more portable than jq)
+prompt=$(echo "$stdin" | sed -n 's/.*"prompt":\s*"\([^"]*\)".*/\1/p' | head -1)
+session_id=$(echo "$stdin" | sed -n 's/.*"session_id":\s*"\([^"]*\)".*/\1/p' | head -1)
+
+# Convert prompt to lowercase for case-insensitive matching
+prompt_lower=$(echo "$prompt" | tr '[:upper:]' '[:lower:]')
+
+# Agent detection result
+agent_detected=""
+agent_reason=""
+redirect_type=""
+
+# RULE #0 - MANDATORY UTILITY AGENTS (BLOCKING - NO ALTERNATIVES)
+check_mandatory_agents() {
+    # file-creator: File/directory creation
+    if [[ "$prompt_lower" =~ (create|generate|new file|setup structure|make.*file|build.*directory|mkdir|touch) ]]; then
+        agent_detected="file-creator"
+        agent_reason="Mandatory utility agent: File/directory creation operations"
+        redirect_type="utility_mandatory"
+        return
+    fi
+    
+    # git-workflow: All git operations
+    if [[ "$prompt_lower" =~ (commit|branch|merge|git|push|pull|checkout|clone|add.*git|git.*status|version control) ]]; then
+        agent_detected="git-workflow"
+        agent_reason="Mandatory utility agent: All git operations"
+        redirect_type="utility_mandatory"
+        return
+    fi
+    
+    # context-fetcher: Internal documentation
+    if [[ "$prompt_lower" =~ (docs|readme|internal guide|project docs|documentation|how.*work|explain.*code) ]]; then
+        agent_detected="context-fetcher"
+        agent_reason="Mandatory utility agent: Internal documentation retrieval"
+        redirect_type="utility_mandatory"
+        return
+    fi
+    
+    # knowledge-fetcher: External research
+    if [[ "$prompt_lower" =~ (search|readwise|context7|web search|find articles|research|lookup|google) ]]; then
+        agent_detected="knowledge-fetcher"
+        agent_reason="Mandatory utility agent: External research operations"
+        redirect_type="utility_mandatory"
+        return
+    fi
+    
+    # date-checker: Date/time calculations
+    if [[ "$prompt_lower" =~ (when|schedule|time since|date|timestamp|ago|yesterday|tomorrow|calendar) ]]; then
+        agent_detected="date-checker"
+        agent_reason="Mandatory utility agent: Date/time calculations"
+        redirect_type="utility_mandatory"
+        return
+    fi
+}
+
+# RULE #0 - DOMAIN SPECIALISTS
+check_domain_specialists() {
+    # Only check if no mandatory agent detected
+    [[ -n "$agent_detected" ]] && return
+    
+    # Backend/API work
+    if [[ "$prompt_lower" =~ (api|backend|server|database|sql|express|node.*js) ]]; then
+        agent_detected="backend-architect"
+        agent_reason="Domain specialist: Backend/API development"
+        redirect_type="domain_specialist"
+        return
+    fi
+    
+    # Frontend/UI work
+    if [[ "$prompt_lower" =~ (frontend|ui|react|component|css|styling|interface) ]]; then
+        agent_detected="frontend-developer"
+        agent_reason="Domain specialist: Frontend/UI development"
+        redirect_type="domain_specialist"
+        return
+    fi
+    
+    # Mobile development
+    if [[ "$prompt_lower" =~ (mobile|android|ios|app store|native) ]]; then
+        agent_detected="mobile-app-builder"
+        agent_reason="Domain specialist: Mobile development"
+        redirect_type="domain_specialist"
+        return
+    fi
+    
+    # Testing work
+    if [[ "$prompt_lower" =~ (test|testing|jest|playwright|bug.*fix|debug) ]]; then
+        agent_detected="test-writer-fixer"
+        agent_reason="Domain specialist: Testing and debugging"
+        redirect_type="domain_specialist"
+        return
+    fi
+    
+    # Design work
+    if [[ "$prompt_lower" =~ (design|ux|visual|brand|color|font) ]]; then
+        agent_detected="ui-designer"
+        agent_reason="Domain specialist: UI/UX design"
+        redirect_type="domain_specialist"
+        return
+    fi
+    
+    # Deployment/DevOps
+    if [[ "$prompt_lower" =~ (deploy|deployment|ci/cd|docker|kubernetes|infrastructure) ]]; then
+        agent_detected="devops-automator"
+        agent_reason="Domain specialist: Deployment and DevOps"
+        redirect_type="domain_specialist"
+        return
+    fi
+}
+
+# RULE #0 - CROSS-DOMAIN COMPLEXITY (studio-coach orchestration)
+check_cross_domain_complexity() {
+    [[ -n "$agent_detected" ]] && return
+    
+    complex_indicators=0
+    
+    # Count domain indicators for complexity assessment
+    [[ "$prompt_lower" =~ (frontend|ui|react|component) ]] && ((complex_indicators++))
+    [[ "$prompt_lower" =~ (backend|api|server|database) ]] && ((complex_indicators++))
+    [[ "$prompt_lower" =~ (test|testing|debug) ]] && ((complex_indicators++))
+    [[ "$prompt_lower" =~ (deploy|deployment) ]] && ((complex_indicators++))
+    [[ "$prompt_lower" =~ (design|ux|visual) ]] && ((complex_indicators++))
+    [[ "$prompt_lower" =~ (mobile|android|ios) ]] && ((complex_indicators++))
+    
+    # Multi-phase project indicators
+    [[ "$prompt_lower" =~ (feature|project|application|system|platform) ]] && ((complex_indicators++))
+    [[ "$prompt_lower" =~ (build.*entire|complete.*app|full.*stack) ]] && ((complex_indicators++))
+    
+    # If 2+ domains detected, require studio-coach orchestration
+    if [[ $complex_indicators -ge 2 ]]; then
+        agent_detected="studio-coach"
+        agent_reason="Cross-domain complexity: Multiple domains detected ($complex_indicators indicators)"
+        redirect_type="orchestration"
+    fi
+}
+
+# RULE #0 - MVP/RAPID PROTOTYPING
+check_mvp_patterns() {
+    [[ -n "$agent_detected" ]] && return
+    
+    if [[ "$prompt_lower" =~ (mvp|prototype|rapid|quick.*build|simple.*app|basic.*feature) ]]; then
+        agent_detected="rapid-prototyper"
+        agent_reason="MVP/Prototyping specialist: Rapid development patterns detected"
+        redirect_type="mvp_specialist"
+    fi
+}
+
+# Execute agent detection pipeline
+check_mandatory_agents
+check_domain_specialists
+check_cross_domain_complexity
+check_mvp_patterns
+
+# Generate hook output
+if [[ -n "$agent_detected" ]]; then
+    # Log the detection for monitoring
+    echo "[$(date -Iseconds)] AGENT_HOOK: $agent_detected | $agent_reason | Prompt: ${prompt:0:80}..." >> /home/arn/.claude/logs/agent-auto-trigger.log 2>/dev/null || true
+    
+    # Create enforcement message based on redirect type
+    case "$redirect_type" in
+        "utility_mandatory")
+            enforcement_level="🚨 MANDATORY UTILITY AGENT"
+            ;;
+        "domain_specialist")
+            enforcement_level="🎯 DOMAIN SPECIALIST AGENT"
+            ;;
+        "orchestration")
+            enforcement_level="🎼 ORCHESTRATION REQUIRED"
+            ;;
+        "mvp_specialist")
+            enforcement_level="⚡ MVP SPECIALIST AGENT"
+            ;;
+        *)
+            enforcement_level="🤖 AGENT DETECTED"
+            ;;
+    esac
+    
+    # Output JSON format expected by Claude Code hooks
+    jq -n --arg enforcement "$enforcement_level" \
+          --arg agent "$agent_detected" \
+          --arg reason "$agent_reason" \
+          --arg redirect "$redirect_type" \
+          --arg prompt "$prompt" \
+          '{
+            "hookSpecificOutput": {
+              "additionalContext": "\n🤖 AGENT DELEGATION PROTOCOL ACTIVATED\n\n\($enforcement) - Agent: \($agent)\nReason: \($reason)\n\nRULE #0 requires using Task(\($agent), \"\($prompt)\")\n\nContext preservation: Fresh agent context prevents conversation bloat."
+            }
+          }'
+fi
+
+# Always allow prompt to continue (exit 0)
+# The enforcement is through context injection, not blocking
+exit 0
