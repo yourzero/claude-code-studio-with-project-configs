@@ -3,5 +3,9 @@
   "model": "sonnet",
   "feedbackSurveyState": {
     "lastShownTime": 1754067711350
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "node statusline-context-tracker.js"
   }
 }
