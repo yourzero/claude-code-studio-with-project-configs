@@ -83,7 +83,14 @@
       "Bash(for i in 1 2 3)",
       "Bash(do echo \"=== RUN $i ===\")",
       "Bash(done)",
-      "Bash(paplay:*)"
+      "Bash(paplay:*)",
+      "WebSearch",
+      "WebFetch(domain:hub.docker.com)",
+      "WebFetch(domain:docs.axoniq.io)",
+      "Read(//home/justin/.claude/**)",
+      "Read(//home/justin/Music/notifications/**)",
+      "Bash(test:*)",
+      "Bash(/home/justin/development/ralph/delta-appxtobox/.claude/claude-notification.sh:*)"
     ]
   },
   "enabledMcpjsonServers": [
@@ -100,7 +107,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/claude-notification.sh \"Claude Code\" \"Claude Code Started\" \"~/Music/notifications/notification-sound-3-262896.wav\""
+            "command": ".claude/claude-notification.sh \"Claude Code\" \"Claude Code Started\" \"/home/justin/Music/notifications/notification-sound-3-262896.wav\""
           }
         ]
       }
@@ -120,18 +127,17 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/claude-notification.sh \"Claude Code\" \"Claude Code Completed\" \"~/Music/notifications/notification-sound-3-262896.wav\""
+            "command": ".claude/claude-notification.sh \"Claude Code\" \"Claude Code Completed\" \"/home/justin/Music/notifications/new-notification-022-370046.wav\""
           }
         ]
       }
     ],
     "Notification": [
       {
-        "matcher": "error",
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/claude-notification.sh -u critical \"Claude Code\" \"Claude Code Needs your Attention\" \"~/Music/notifications/new-notification-022-370046.wav\""
+            "command": ".claude/claude-notification.sh \"Claude Code\" \"Claude Code Needs your Attention\" \"/home/justin/Music/notifications/notification-sound-3-262896.wav\""
           }
         ]
       }
