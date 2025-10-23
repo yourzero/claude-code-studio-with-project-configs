@@ -1,0 +1,47 @@
+{
+  "permissions": {
+    "allow": ["*"],
+    "defaultMode": "bypassPermissions"
+  },
+  "enabledMcpjsonServers": [
+    "intellij",
+    "adb",
+    "serena",
+    "git",
+    "sequential-thinking",
+    "context7"
+  ],
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "paplay /home/justin/Music/notifications/new-notification-022-370046.wav"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "paplay /home/justin/Music/notifications/notification-sound-3-262896.wav"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "error",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "paplay /home/justin/Music/notifications/new-notification-010-352755.mp3"
+          }
+        ]
+      }
+    ]
+  }
+}

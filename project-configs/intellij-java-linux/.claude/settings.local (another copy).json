@@ -1,0 +1,144 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir:*)",
+      "Bash(tree:*)",
+      "mcp__git__git_status",
+      "mcp__git__git_diff_unstaged",
+      "mcp__git__git_diff_staged",
+      "mcp__git__git_diff",
+      "mcp__git__git_commit",
+      "mcp__git__git_add",
+      "mcp__git__git_reset",
+      "mcp__git__git_log",
+      "mcp__git__git_create_branch",
+      "mcp__git__git_checkout",
+      "mcp__git__git_show",
+      "mcp__git__git_init",
+      "mcp__git__git_branch",
+      "mcp__serena__list_dir",
+      "mcp__serena__find_file",
+      "mcp__serena__search_for_pattern",
+      "mcp__serena__get_symbols_overview",
+      "mcp__serena__find_symbol",
+      "mcp__serena__find_referencing_symbols",
+      "mcp__serena__replace_symbol_body",
+      "mcp__serena__insert_after_symbol",
+      "mcp__serena__insert_before_symbol",
+      "mcp__serena__write_memory",
+      "mcp__serena__read_memory",
+      "mcp__serena__list_memories",
+      "mcp__serena__delete_memory",
+      "mcp__serena__activate_project",
+      "mcp__serena__get_current_config",
+      "mcp__serena__check_onboarding_performed",
+      "mcp__serena__onboarding",
+      "mcp__serena__think_about_collected_information",
+      "mcp__serena__think_about_task_adherence",
+      "mcp__serena__think_about_whether_you_are_done",
+      "mcp__vscode-mcp__list_files_code",
+      "mcp__vscode-mcp__read_file_code",
+      "mcp__vscode-mcp__create_file_code",
+      "mcp__vscode-mcp__replace_lines_code",
+      "mcp__vscode-mcp__execute_shell_command_code",
+      "mcp__vscode-mcp__get_diagnostics_code",
+      "mcp__vscode-mcp__search_symbols_code",
+      "mcp__vscode-mcp__get_symbol_definition_code",
+      "mcp__vscode-mcp__get_document_symbols_code",
+      "mcp__ide__getDiagnostics",
+      "mcp__ide__executeCode",
+      "mcp__vs-claude__open",
+      "mcp__context7__resolve-library-id",
+      "mcp__context7__get-library-docs",
+      "mcp__sequential-thinking__sequentialthinking",
+      "mcp__git__git_status",
+      "mcp__git__git_diff_unstaged",
+      "mcp__git__git_diff_staged",
+      "mcp__git__git_commit",
+      "mcp__git__git_add",
+      "mcp__git__git_log",
+      "mcp__serena__list_dir",
+      "mcp__serena__find_file",
+      "mcp__serena__search_for_pattern",
+      "mcp__serena__get_symbols_overview",
+      "mcp__serena__find_symbol",
+      "mcp__serena__find_referencing_symbols",
+      "mcp__serena__replace_symbol_body",
+      "mcp__serena__insert_after_symbol",
+      "mcp__serena__insert_before_symbol",
+      "mcp__serena__write_memory",
+      "mcp__serena__read_memory",
+      "mcp__serena__list_memories",
+      "mcp__context7__resolve-library-id",
+      "mcp__context7__get-library-docs",
+      "mcp__sequential-thinking__sequentialthinking",
+      "mcp__vs-claude__open",
+      "mcp__vscode-mcp__get_diagnostics_code",
+      "mcp__vscode-mcp__search_symbols_code",
+      "Bash(mvn test:*)",
+      "Bash(cat:*)",
+      "Bash(mvn clean test:*)"
+    ]
+  },
+  "enabledMcpjsonServers": [
+    "intellij",
+    "adb",
+    "serena",
+    "git",
+    "sequential-thinking",
+    "context7"
+  ],
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "paplay /home/justin/Music/notifications/new-notification-022-370046.wav"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "paplay /home/justin/Music/notifications/notification-sound-3-262896.wav"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "paplay /home/justin/Music/notifications/new-notification-010-352755.mp3"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "paplay /home/justin/Music/notifications/notification-sound-3-262896.wav"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "error",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "paplay /home/justin/Music/notifications/error-04-199275.wav"
+          }
+        ]
+      }
+    ]
+  }
+}
